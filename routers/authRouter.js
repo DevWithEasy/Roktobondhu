@@ -1,0 +1,21 @@
+const { signup, signin, verifyAccount, sentCodeAgain, updateProfile, updatePassword, getDonars, findDonars, find, forgetPassword, resetPassword, addField, findUsers, findUser, updateUser, deleteUser } = require('../controllers/authControllers')
+const authenticated = require('../middlewares/authenticated')
+
+const router = require('express').Router()
+
+router.post('/signup', signup)
+    .post('/signin', signin)
+    .post('/verify',authenticated,verifyAccount)
+    .post('/sendCodeAgain',authenticated,sentCodeAgain)
+    .put('/update',authenticated,updateProfile)
+    .put('/updatePassword',authenticated,updatePassword)
+    .post('/find/donar',findDonars)
+    .get('/find',find)
+    .post('/forget',forgetPassword)
+    .put('/reset',authenticated,resetPassword)
+    .get('/users',authenticated,findUsers)
+    .get('/users/:id',authenticated,findUser)
+    .put('/users/:id',authenticated,updateUser)
+    .delete('/users/:id',authenticated,deleteUser)
+    .put('/addField',addField)
+module.exports = router

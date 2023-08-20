@@ -1,0 +1,6 @@
+.header{
+    @apply flex p-5
+}
+.header .logo {
+    @apply w-3/12
+}
