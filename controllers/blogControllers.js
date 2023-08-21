@@ -153,7 +153,7 @@ exports.getBlogs=async(req,res,next)=>{
     try {
         const total = await Blog.find({}).countDocuments();
         const page = req.query.page;
-        const limit = 10
+        const limit = 12
         const pages = Math.ceil(total/limit)
         const blogs =   await Blog.find({})
         .populate('user' , '-_id name')

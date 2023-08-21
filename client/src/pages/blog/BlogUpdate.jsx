@@ -119,7 +119,7 @@ const BlogUpdate = () => {
                     className='pb-16 md:pb-12 bg-white'
                 >
                     <ReactQuill
-                        className='h-[300px]'
+                        className='h-[300px] font-bangla'
                         theme="snow"
                         value={description}
                         onChange={setDescription}
