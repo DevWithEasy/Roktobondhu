@@ -1,0 +1,11 @@
+.paginate{
+    @apply p-1 flex justify-center space-x-1 bg-red-400 rounded
+}
+
+.paginate li {
+    @apply px-4 py-1 text-base rounded-md border border-red-400 hover:border-red-500 text-white
+}
+
+.p-active{
+    @apply bg-red-500 text-red-500
+}

@@ -7,18 +7,26 @@ import useUserStore from "../../store/userStore";
 import apiUrl from "../../utils/apiUrl";
 import Loading from "../../component/Loading";
 import Head from "../../component/Head";
+import ReactPaginate from "react-paginate";
 
 const Blog = () => {
     const { isAuth,isLoading,activeLoading,cancelLoading } = useUserStore()
     const navigate = useNavigate()
     const [blogs, setBlogs] = useState([])
-    const getBlogs = async () => {
+    const [page, setPage] = useState(0)
+    const [pages, setPages] = useState(0)
+
+    const handlePage = (e) => {
+        setPage(e.selected)
+    }
+    const getBlogs = async (page) => {
         activeLoading()
         try {
-            const res = await axios.get(`${apiUrl}/api/blog`)
+            const res = await axios.get(`${apiUrl}/api/blog/?page=${page}`)
             if (res.data.status === 200) {
                 cancelLoading()
-                setBlogs(res.data.data)
+                setPages(res.data.data.pages)
+                setBlogs(res.data.data.blogs)
             }
         } catch (error) {
             cancelLoading()
@@ -26,8 +34,8 @@ const Blog = () => {
         }
     }
     useEffect(() => {
-        getBlogs()
-    }, [])
+        getBlogs(page)
+    }, [page])
 
     return (
         <div
@@ -39,7 +47,7 @@ const Blog = () => {
             {isAuth &&
                 <button
                     onClick={() => navigate('/blog/create')}
-                    className="my-2 px-4 py-2 bg-red-400 text-white rounded"
+                    className="my-2 px-4 py-2 bg-red-500 text-white rounded"
                 >
                     নতুন ব্লগ লিখুন
                 </button>
@@ -54,6 +62,22 @@ const Blog = () => {
                         />
                     )
                 }
+            </div>
+            <div
+                className="flex justify-center py-2"
+            >
+                <ReactPaginate
+                    className=""
+                    breakLabel="..."
+                    nextLabel=">"
+                    onPageChange={handlePage}
+                    pageRangeDisplayed={5}
+                    pageCount={pages}
+                    previousLabel="<"
+                    renderOnZeroPageCount={null}
+                    containerClassName="paginate"
+                    activeClassName="p-active"
+                />
             </div>
             {isLoading &&
                 <Loading/>

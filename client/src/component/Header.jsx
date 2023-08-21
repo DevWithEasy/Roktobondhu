@@ -89,7 +89,7 @@ const Header = () => {
                 />
                 {open &&
                     <div
-                        className="w-[200px] absolute right-0 bg-white p-2 rounded shadow text-black"
+                        className="w-[200px] absolute right-0 z-10 bg-white p-2 rounded shadow text-black"
                     >
                         {
                             isAuth &&

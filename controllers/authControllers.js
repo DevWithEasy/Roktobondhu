@@ -505,12 +505,23 @@ exports.findDonars = async (req, res, next) => {
 exports.findUsers = async (req, res, next) => {
 
     try {
-        const users = await User.find({})
+        const total = await User.find({}).countDocuments();
+        const page = req.query.page;
+        const limit = 10
+        const pages = Math.ceil(total/limit)
+        const users = 
+        await User.find({})
+        .skip(page > 0 ? (page * limit) : 0)
+        .limit(limit)
 
         res.status(200).json({
             status: 200,
             success: true,
-            data: users,
+            data: {
+                limit,
+                pages,
+                users
+            },
         });
     } catch (error) {
         res.status(500).json({

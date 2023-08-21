@@ -7,7 +7,7 @@ import { RxCrossCircled } from "react-icons/rx";
 import Loading from "../../../component/Loading";
 
 // eslint-disable-next-line react/prop-types
-const DeleteUser = ({ id,open, setOpen,setRandom }) => {
+const DeleteUser = ({ id,open, setOpen }) => {
     const {isLoading,activeLoading,cancelLoading } = useUserStore()
     const handleDelete = async() => {
         activeLoading()
@@ -21,7 +21,6 @@ const DeleteUser = ({ id,open, setOpen,setRandom }) => {
                 cancelLoading()
                 toast.success('ডিলিট হয়েছে। ')
                 setOpen(!open)
-                setRandom(Math.random())
             }
         } catch (error) {
             cancelLoading()

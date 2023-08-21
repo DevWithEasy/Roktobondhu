@@ -9,6 +9,7 @@ import useUserStore from "../../../store/userStore";
 import apiUrl from "../../../utils/apiUrl";
 import token from "../../../utils/token";
 import DeleteUser from "./DeleteUser";
+import ReactPaginate from 'react-paginate';
 
 const Users = () => {
     const { isLoading, activeLoading, cancelLoading } = useUserStore()
@@ -16,19 +17,25 @@ const Users = () => {
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
     const [id, setId] = useState('')
-    const [random,setRandom] = useState(1)
+    const [page, setPage] = useState(0)
+    const [pages, setPages] = useState(0)
 
-    const getUsers = async () => {
+    const handlePage = (e) => {
+        setPage(e.selected)
+    }
+
+    const getUsers = async (page) => {
         activeLoading()
         try {
-            const res = await axios.get(`${apiUrl}/api/auth/users`, {
+            const res = await axios.get(`${apiUrl}/api/auth/users?page=${page}`, {
                 headers: {
                     'authorization': token()
                 }
             })
             if (res.data.status === 200) {
                 cancelLoading()
-                setUsers(res.data.data)
+                setPages(res.data.data.pages)
+                setUsers(res.data.data.users)
             }
         } catch (error) {
             cancelLoading()
@@ -37,8 +44,8 @@ const Users = () => {
     }
 
     useEffect(() => {
-        getUsers()
-    }, [random])
+        getUsers(page)
+    }, [page])
     return (
         <div
             className=""
@@ -98,8 +105,24 @@ const Users = () => {
                     </tbody>
                 </table>
             </div>
-            {open && 
-                <DeleteUser {...{id,open,setOpen,setRandom}}/>
+            <div
+                className="flex justify-center py-2"
+            >
+                <ReactPaginate
+                    className=""
+                    breakLabel="..."
+                    nextLabel=">"
+                    onPageChange={handlePage}
+                    pageRangeDisplayed={5}
+                    pageCount={pages}
+                    previousLabel="<"
+                    renderOnZeroPageCount={null}
+                    containerClassName="paginate"
+                    activeClassName="p-active"
+                />
+            </div>
+            {open &&
+                <DeleteUser {...{ id, open, setOpen }} />
             }
             {isLoading &&
                 <Loading />
