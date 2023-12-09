@@ -10,7 +10,7 @@ const FindTableView = ({ users, access, setAccess }) => {
     return (
         <div className="hidden md:block relative overflow-x-auto">
             <table className="w-full">
-                <thead className="text-white bg-red-400">
+                <thead className="text-white bg-red-500">
                     <tr>
                         <td className="p-2 text-center border">
                             নং
